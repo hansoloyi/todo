@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Register</title>
+<link href= "../resources/myTheme/styles/style.css" rel="stylesheet">
+</head>
+
+<body>
+	<div id = "top-bar-not-logged">
+		<div id = "brand"> todo</div>
+
+		<form method = "POST" action = "/search" id = "searchform">
+			<input type = "text" id = "searchbar" placeholder="Search by name...">
+			<input type = "submit" id = "search" value = "Search..">
+		</form>
+
+		<form method = "POST" action = "/logout">
+			<input type = "submit" value = "Logout" id = "logout"/>
+		</form>
+	</div>
+
+	<div id = "sidebar"> 
+		<div id = "sidebaritems">
+			<div id = "loggedInName"> Test Name </div>
+			<img class = "loggedInPicture" src = "../resources/myTheme/images/testimg.jpg" />
+			<div id = "todo_link"> Todo Feed </div>
+			<div id = "todo_link"> Your Todo </div>
+			<div id = "todo_link"> Random Todo </div>
+			<div id = "todo_link"> Account </div>
+		</div>
+	</div>
+
+	<div id = "yourTodoBody" class = "todoBody">
+		<div id = "yourTodoTitle"> What do you have todo? </div>
+		
+		<div id = "todoList">
+			<form method = "post" action = "/TodoApp/add" id = "yourTodoForm">
+				<input type = "text" name = "todoAdd" id ="todoAddInput" placeholder = "todo..."/>
+				<input type = "submit" id = "todoAddSubmit" value = "Add" />
+			</form>
+		</div>
+	</div>
+
+
+
+</body>
+</html>

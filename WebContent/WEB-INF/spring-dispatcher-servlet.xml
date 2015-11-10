@@ -1,0 +1,90 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation = "http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/mvc 
+    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	
+	<!--  SPRING SET UP -->
+	<context:annotation-config />
+	<context:component-scan base-package="net.todo.springmvc.controllers" />
+	
+	<mvc:resources mapping="/resources/**" location="/resources/myTheme/" />
+	<mvc:annotation-driven />
+	
+	<bean id = "viewResolver" class = "org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name = "prefix">
+			<value>/pages/</value>
+		</property>
+		<property name = "suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+	
+	<bean id = "messageSource" class = "org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name = "basename" value = "/WEB-INF/messages"/>
+	</bean>
+	
+	<!-- TRANSACTIONS -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+ 
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="mysf" />
+	</bean>
+	
+	
+	
+	
+	
+	<!-- INJECTIONS -->
+		<!-- net.todo.springmvc.validators for controllers injection-->
+	<bean id = "regValidator" class = "net.todo.springmvc.validators.RegisterValidator" />
+	<bean id = "logValidator" class = "net.todo.springmvc.validators.LoginValidator" />
+	
+		<!-- net.todo.backend.pojos -->
+	<bean id = "userAccess" class = "net.todo.backend.pojos.UserAccess" />
+	<bean id = "todoAccess" class = "net.todo.backend.pojos.TodoAccess" />
+	
+		<!-- net.todo.business.pojos -->
+	<bean id = "regSecurity" class = "net.todo.business.pojos.RegisterSecurity" />
+	<bean id = "logSecurity" class = "net.todo.business.pojos.LoginSecurity" />
+	<bean id = "listSecurity" class = "net.todo.business.pojos.ListSecurity" />
+	
+		<!-- json writer for ajax -->
+	<bean id = "jsonWriter" class = "net.todo.json.stuff.JsonWriter" />
+	
+	
+	
+	
+	
+	<!-- DATASOURCE -->
+	<bean id = "datasource" class = "org.springframework.jndi.JndiObjectFactoryBean">
+		<property name = "jndiName" value = "java:jboss/datasources/TodoDS"/>
+	</bean>
+	
+	<!-- HIBERNATE -->
+	<bean id = "mysf" class = "org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name = "dataSource" ref = "datasource"/>
+		<property name = "annotatedClasses">
+			<list>
+				<value>net.todo.hibernate.pojos.User</value>
+				<value>net.todo.hibernate.pojos.Todo</value>
+				<value>net.todo.hibernate.pojos.TodoList</value>
+				
+			</list>
+		</property>
+		<property name = "hibernateProperties">
+			<value>hibernate.dialect=org.hibernate.dialect.MySQLDialect</value>
+		</property>
+		<property name = "SchemaUpdate">
+			<value>true</value>
+		</property>
+	</bean>	
+</beans>
